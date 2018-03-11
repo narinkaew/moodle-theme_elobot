@@ -36,3 +36,7 @@ $string['levelcompleted'] = 'You have been completed of all levels.';
 
 // XP
 $string['samelevel'] = 'You cannot update this level, you have already passed.';
+
+// Mail
+$string['subject'] = '\'{$a->studentname}\' has completed \'{$a->quizname}\'';
+$string['body'] = '\'{$a->studentname}\' has completed the quiz \'{$a->quizname}\' in course \'{$a->coursename}\'. You can review attempt(s) and generate QR Code at {$a->quizurl}.';

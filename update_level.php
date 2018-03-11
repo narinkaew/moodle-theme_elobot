@@ -44,7 +44,7 @@ $uid = optional_param('uid',  0, PARAM_INT);  // User ID.
 //echo '<br>uid='.$uid;
 //echo '<br>completed level='.$lv;
 
-if ($uid == 0 && $USER->id == 0) {
+if ($uid == 0) {
     require_login();
 } else if ($USER->id) {
     $uid = $USER->id;

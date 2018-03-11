@@ -102,24 +102,22 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
              $output .= $OUTPUT->box_end();
         }
 
-        // // global $DB;
-        // // if (!$tempuser = $DB->get_record('user', array('id' => 2))) {
-        // //     print_error('nousersfound', 'moodle');
-        // // }
-        // //echo $USER->email;
+        /** Email confirmation directly rather than using messaging so they will definitely get an email. */
+        $supportuser = core_user::get_support_user();
+        //echo "<br>Quiz=".$quiz->name;
+        //echo "<br>QuizURL=".$quiz->url;
+        // echo "<br>USER=".fullname($USER);
+        // echo "<br>supportuser=".$supportuser->email;
+        $emailupdatetitle = get_string('subject', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name]);
+        //echo "<br>Subject=".$emailupdatetitle;
 
-        // // Email confirmation directly rather than using messaging so they will definitely get an email.
-        // //$tempuser = $USER;
-        // $supportuser = core_user::get_support_user();
-        // //echo "<br>USER=".$tempuser->email;
-        // //echo "<br>supportuser=".$supportuser->email;
-        // $emailupdatetitle = "test title";
-        // $emailupdatemessage = "test message";
-        // if (!$mailresults = email_to_user($tempuser, $supportuser, $emailupdatetitle, $emailupdatemessage)) {
-        //     die("could not send email!");
-        // }
+        $quizurl = $CFG->wwwroot . '/mod/quiz/view.php?id=' . $cm->id;
+        $emailupdatemessage = get_string('body', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name, 'quizurl' => $quizurl, 'coursename' => $course->fullname]);
+        //echo "<br>Body=".$emailupdatemessage;
+        if (!$mailresults = email_to_user($USER, $supportuser, $emailupdatetitle, $emailupdatemessage)) {
+            die("could not send email!");
+        }
 
         return $output;
     }
-
 }
