@@ -88,7 +88,7 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
         $percentgrade = ($mygrade / $quizgrade) * 100;
 
         /** If passed the quiz , display QR code link */
-        if( check_for_passing_grade($course, $quiz, $cm) )
+        if( check_for_passing_grade($course, $quiz, $cm) || is_siteadmin() )
         {
             $targeturl = $CFG->wwwroot.'/theme/elobot/qr.php?id='.$cm->id.'&uid='.$USER->id;
 
