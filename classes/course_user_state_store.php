@@ -61,6 +61,9 @@ class course_user_state_store {
     /** User preference prefix for course module. */
     const USERPREF_COURSE_MODULE = 'block_xp_elobot_course_module_';
 
+    /** User preference prefix for email. */
+    const USERPREF_EMAIL = 'block_xp_elobot_email_';
+
     /** The table name. */
     const TABLE_USER_PREFERENCES = 'user_preferences';
 
@@ -219,6 +222,32 @@ class course_user_state_store {
         $params = [];
         $params['userid'] = $userid;
         $params['name'] = $course_module_key;
+        return $this->db->get_record(self::TABLE_USER_PREFERENCES, $params);
+    }
+
+    /**
+     * Insert the user preference in the database.
+     *
+     * @param int $userid The user ID.
+     * @return void
+     */
+    public function insert_pref_email($userid) {
+        $email_key = self::USERPREF_EMAIL . $this->coursemoduleid;
+        set_user_preference($email_key, true, $userid);
+    }
+
+    /**
+     * Return whether the user preference exists.
+     *
+     * @param int $id The receiver.
+     * @return stdClass|false
+     */
+    public function exists_pref_email($userid) {
+        $email_key = self::USERPREF_EMAIL . $this->coursemoduleid;
+
+        $params = [];
+        $params['userid'] = $userid;
+        $params['name'] = $email_key;
         return $this->db->get_record(self::TABLE_USER_PREFERENCES, $params);
     }
 

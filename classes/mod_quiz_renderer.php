@@ -69,10 +69,10 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
         $course_user_state_store = new course_user_state_store($DB, $cm->course, $cm->id);
 
         /** If already passed this quiz, don't display QR link. */
-        if ($course_user_state_store->exists_pref_course_module($USER->id)) {
-            $output .= $this->box(get_string('levelpassed', 'theme_elobot'), 'quizinfo');
-            return $output;
-        }
+        // if ($course_user_state_store->exists_pref_course_module($USER->id)) {
+        //     $output .= $this->box(get_string('levelpassed', 'theme_elobot'), 'quizinfo');
+        //     return $output;
+        // }
 
         /** If user is at max level, don't display QR link. It's completed. */
         $currentlevel = $course_user_state_store->get_current_level($USER->id);
@@ -88,7 +88,7 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
         $percentgrade = ($mygrade / $quizgrade) * 100;
 
         /** If passed the quiz , display QR code link */
-        if( check_for_passing_grade($course, $quiz, $cm) || is_siteadmin() )
+        if (check_for_passing_grade($course, $quiz, $cm) ) //|| is_siteadmin()
         {
             $targeturl = $CFG->wwwroot.'/theme/elobot/qr.php?id='.$cm->id.'&uid='.$USER->id;
 
@@ -103,19 +103,26 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
         }
 
         /** Email confirmation directly rather than using messaging so they will definitely get an email. */
-        $supportuser = core_user::get_support_user();
-        //echo "<br>Quiz=".$quiz->name;
-        //echo "<br>QuizURL=".$quiz->url;
-        // echo "<br>USER=".fullname($USER);
-        // echo "<br>supportuser=".$supportuser->email;
-        $emailupdatetitle = get_string('subject', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name]);
-        //echo "<br>Subject=".$emailupdatetitle;
+        if (!$course_user_state_store->exists_pref_email($USER->id))
+        {
+            $supportuser = core_user::get_support_user();
+            //echo "<br>Quiz=".$quiz->name;
+            //echo "<br>QuizURL=".$quiz->url;
+            // echo "<br>USER=".fullname($USER);
+            // echo "<br>supportuser=".$supportuser->email;
+            $emailupdatetitle = get_string('subject', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name]);
+            //echo "<br>Subject=".$emailupdatetitle;
 
-        $quizurl = $CFG->wwwroot . '/mod/quiz/view.php?id=' . $cm->id;
-        $emailupdatemessage = get_string('body', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name, 'quizurl' => $quizurl, 'coursename' => $course->fullname]);
-        //echo "<br>Body=".$emailupdatemessage;
-        if (!$mailresults = email_to_user($USER, $supportuser, $emailupdatetitle, $emailupdatemessage)) {
-            die("could not send email!");
+            $quizurl = $CFG->wwwroot . '/mod/quiz/view.php?id=' . $cm->id;
+            $emailupdatemessage = get_string('body', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name, 'quizurl' => $quizurl, 'coursename' => $course->fullname, 'qrcode' => (new qr_code())->generate_qrcode($cm->id, $USER->id) ]);
+            //echo "<br>Body=".$emailupdatemessage;
+
+            if (!$mailresults = email_to_user($USER, $supportuser, $emailupdatetitle, $emailupdatemessage)) {
+                die("could not send email!");
+            }
+
+            /** Insert email flag to user_preference, send email only first time*/
+            $course_user_state_store->insert_pref_email($USER->id);
         }
 
         return $output;

@@ -116,8 +116,8 @@ if (isguestuser()) {
     $course_user_state_store = new course_user_state_store($DB, $cm->course, $cm->id);
     if ( $userpref = $course_user_state_store->exists_pref_course_module($uid) )
     {
-        $completedlevel = $userpref->value;
-        $nextlevel = $completedlevel + 1;
+        $currentlevel = $userpref->value;
+        $nextlevel = $currentlevel + 1;
     }
     else {
         /** Find current level & next level */
@@ -125,34 +125,34 @@ if (isguestuser()) {
         $nextlevel = $currentlevel + 1;
     }
 
-
     /** Display avatar for next level */
     $avatar_next_level = $CFG->wwwroot.'/theme/elobot/pix/' . $nextlevel . '.png';
-    // echo html_writer::tag(
-    //         'div',
-    //         html_writer::empty_tag('img', ['src' => $avatar_next_level,
-    //             'alt' => 'Level up to ' . $nextlevel])
-    //     );
-    // echo html_writer::empty_tag('br');
 
     $tableHml = '';
     $tableHml .= '<div>';
     $tableHml .= '  <table style="width:100%; height:100%;">';
-    $tableHml .= '      <tr style="valign:center; height:50%;">';
+    $tableHml .= '      <tr style="valign:center;">';
     $tableHml .= '          <td align="center">';
-    $tableHml .= '              <img src="' . $avatar_next_level . '" style="display: block; height: 80%;" />';
+    $tableHml .= '              <img src="' . $avatar_next_level . '" style="display: block;" />';
     $tableHml .= '          </td>';
     $tableHml .= '      </tr>';
 
     /** Display QR code for next level */
     $qr_code = new qr_code();
-    //echo $qr_code->generate_qrcode($id, $uid); //, $currentlevel
 
-    $tableHml .= '      <tr style="valign:center; height:50%;">';
+    $tableHml .= '      <tr style="valign:center;">';
     $tableHml .= '          <td align="center">';
-    $tableHml .= $qr_code->generate_qrcode($id, $uid);;
+    $tableHml .= $qr_code->generate_qrcode($id, $uid);
     $tableHml .= '          </td>';
     $tableHml .= '      </tr>';
+
+    /** Display food of completed level */
+    $food_current_level = $CFG->wwwroot.'/theme/elobot/pix/feed/feed_' . $currentlevel . '.png';
+    $tableHml .= '      <tr style="valign:center;">';
+    $tableHml .= '          <td align="center">';
+    $tableHml .= '              <img src="' . $food_current_level . '" style="display: block;" />';
+    $tableHml .= '          </td>';
+    $tableHml .= '      </tr>';  
     $tableHml .= '  </table>';
     $tableHml .= '</div>';
 

@@ -64,7 +64,7 @@ class qr_code {
 
         $out = '';
         //$out  .= $headdiv;
-        $out .= html_writer::img($qrurl, $alt, array('height' => '80%'));
+        $out .= html_writer::img($qrurl, $alt, array('height' => '90%'));
         $out .= html_writer::empty_tag('br');
         //$out .= $descdiv;
 
