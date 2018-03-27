@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information.
+ * Uninstall theme
  *
  * @package    theme_elobot
  * @copyright  2018 Narin Kaewchutima
@@ -24,13 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018032703;                // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = 2018032703;                // Match release exactly to version.
-$plugin->requires  = 2016052300;                // Requires Moodle version 3.1
-$plugin->maturity  = MATURITY_STABLE;
+global $DB;
 
-$plugin->component = 'theme_elobot';       // Full name of the plugin.
-$plugin->dependencies = array(
-    'theme_bootstrapbase'  => 2016051900,
-    'theme_clean'  => 2016051900,
-);
+$sql = $DB->sql_like('name', '?');
+$DB->delete_records_select('user_preferences', $DB->sql_like('name', '?', false), array("block_xp_elobot_%"));
