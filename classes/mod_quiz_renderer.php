@@ -117,7 +117,7 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
             $emailupdatemessage = get_string('body', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name, 'quizurl' => $quizurl, 'coursename' => $course->fullname, 'qrcode' => (new qr_code())->generate_qrcode($cm->id, $USER->id) ]);
             //echo "<br>Body=".$emailupdatemessage;
 
-            if (!$mailresults = email_to_user($USER, $supportuser, $emailupdatetitle, $emailupdatemessage)) {
+            if (!$mailresults = email_to_user($USER, $supportuser, $emailupdatetitle, $emailupdatemessage, $emailupdatemessage)) {
                 die("could not send email!");
             }
 
