@@ -133,7 +133,7 @@ if (isguestuser()) {
     $tableHml .= '  <table style="width:100%; height:100%;">';
     $tableHml .= '      <tr style="valign:center;">';
     $tableHml .= '          <td align="center">';
-    $tableHml .= '              <img src="' . $avatar_next_level . '" style="display: block;" />';
+    $tableHml .= '              <img src="' . $avatar_next_level . '" style="display: block; width: 300px;" />';
     $tableHml .= '          </td>';
     $tableHml .= '      </tr>';
 
@@ -150,7 +150,7 @@ if (isguestuser()) {
     $food_current_level = $CFG->wwwroot.'/theme/elobot/pix/feed/feed_' . $currentlevel . '.png';
     $tableHml .= '      <tr style="valign:center;">';
     $tableHml .= '          <td align="center">';
-    $tableHml .= '              <img src="' . $food_current_level . '" style="display: block;" />';
+    $tableHml .= '              <img src="' . $food_current_level . '" style="display: block; width: 300px;" />';
     $tableHml .= '          </td>';
     $tableHml .= '      </tr>';  
     $tableHml .= '  </table>';

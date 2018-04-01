@@ -27,8 +27,14 @@ require_once(dirname(__FILE__) . '/../../config.php');
 //global $DB, $CFG, $SESSION;
 
 $id = required_param('id', PARAM_INT);
-$uid = required_param('uid', PARAM_INT);
+$uid = optional_param('uid', 0, PARAM_INT);
 //$lv = required_param('lv', PARAM_INT);
+$ampuid = optional_param('amp;uid',  0, PARAM_INT);  // User ID for Android and some application
+
+/** Hot fix for some qr scan application issue */
+if($uid == 0) {
+    $uid = $ampuid;
+}
 
 //$url = 'http://www.soccersuck.com?id='.$id.'&uid='.$uid;
 $url = new moodle_url('/theme/elobot/update_level.php', array('id' => $id, 'uid' => $uid)); //, 'lv' => $lv
