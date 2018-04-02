@@ -25,24 +25,14 @@
 
 
 require_once(dirname(__FILE__) . '/../../config.php');
-// require_once($CFG->libdir.'/gradelib.php');
-// require_once($CFG->dirroot.'/mod/quiz/locallib.php');
-// require_once($CFG->libdir . '/completionlib.php');
-// require_once($CFG->dirroot . '/course/format/lib.php');
 require_once($CFG->dirroot . '/theme/elobot/qr/qr_code.class.php');
-//require_once($CFG->dirroot . '/theme/elobot/qr/renderer.php');
 require_once($CFG->dirroot . '/theme/elobot/classes/course_user_state_store.php');
 
 global $CFG, $PAGE, $DB;
 
-
 $id = optional_param('id', 0, PARAM_INT); // Course Module ID, or ...
 $q = optional_param('q',  0, PARAM_INT);  // Quiz ID.
 $uid = optional_param('uid',  0, PARAM_INT);  // User ID.
-//$lv = required_param('lv', PARAM_INT); // Completed level.
-
-// echo '<br>id='.$id;
-// echo '<br>uid='.$uid;
 
 if ($id) {
     if (!$cm = get_coursemodule_from_id('quiz', $id)) {
@@ -63,11 +53,6 @@ if ($id) {
     }
 }
 
-// echo '<br>course='.$cm->course;
-// echo '<br>level='.$lv;
-//echo '<br>quiz='.$q;
-//echo '<br>quiz_course='.$quiz->course;
-
 $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('login');
@@ -84,28 +69,8 @@ $canattempt = has_capability('mod/quiz:attempt', $context);
 $canreviewmine = has_capability('mod/quiz:reviewmyattempts', $context);
 $canpreview = has_capability('mod/quiz:preview', $context);
 
-// // Create an object to manage all the other (non-roles) access rules.
-// $timenow = time();
-// $quizobj = quiz::create($cm->instance, $USER->id);
-// $accessmanager = new quiz_access_manager($quizobj, $timenow,
-//         has_capability('mod/quiz:ignoretimelimits', $context, null, false));
-// $quiz = $quizobj->get_quiz();
-
-// // Trigger course_module_viewed event and completion.
-// quiz_view($quiz, $course, $cm, $context);
-
 // Initialize $PAGE, compute blocks.
 $PAGE->set_url('/mod/quiz/theme/elobot/qr.php', array('id' => $id, 'uid' => $uid)); //, 'lv' => $lv
-
-// Include css.
-//$PAGE->requires->css('/theme/elobot/css/styles.css');
-
-// $title = $course->shortname;
-// $heading = $course->fullname;
-// $PAGE->set_title($title);
-// $PAGE->set_heading($heading);
-
-// echo $OUTPUT->header();
 
 if (isguestuser()) {
     // Guests can't do a quiz, so offer them a choice of logging in or going back.
@@ -157,11 +122,4 @@ if (isguestuser()) {
     $tableHml .= '</div>';
 
     echo $tableHml;
-
-
-    // echo html_writer::link(new moodle_url('/mod/quiz/view.php', array('id' => $id)), 'Back to quiz');
-    //echo '<button id="printbutton" onclick="window.print();">' . get_string('printpage', 'local_qrlinks') . '</button>';
-    //echo $this->single_button($viewobj->backtocourseurl, get_string('backtocourse', 'quiz'), 'get', array('class' => 'continuebutton'));
 }
-
-// echo $OUTPUT->footer();

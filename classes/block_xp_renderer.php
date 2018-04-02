@@ -255,8 +255,6 @@ class theme_elobot_block_xp_renderer extends block_xp_renderer {
             ]
         ];
 
-        //$leveldesc = ['lv2', 'lv3', 'lv4', 'lv5', 'lv6', 'lv7'];
-
         for ($i = 2; $i <= self::DEFAULT_COUNT; $i++) {
         	if ($i == 2) {
         		$newdata['xp'][$i] = self::DEFAULT_BASE;
@@ -265,7 +263,7 @@ class theme_elobot_block_xp_renderer extends block_xp_renderer {
         	}
 
         	/** Set default description for each level */
-        	$newdata['desc'][$i] = ''; //$leveldesc[$i - 2];
+        	$newdata['desc'][$i] = '';
         }
 
         return new \block_xp\local\xp\algo_levels_info($newdata);

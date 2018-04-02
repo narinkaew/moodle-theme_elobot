@@ -25,14 +25,6 @@
 //namespace block_xp\local\xp;
 defined('MOODLE_INTERNAL') || die();
 
-//use context_helper;
-//use moodle_database;
-//use stdClass;
-//use user_picture;
-//use block_xp\local\logger\collection_logger_with_group_reset;
-//use block_xp\local\logger\reason_collection_logger;
-//use block_xp\local\reason\reason;
-
 /**
  * User state course store.
  *
@@ -125,14 +117,6 @@ class course_user_state_store {
                 'userid' => $userid
             ];
             $this->db->execute($sql, $params);
-            //echo "<br>update completed";
-
-            // // Non-atomic level update. We best guess what the XP should be, and go from there.
-            // $newxp = $record->xp + $amount;
-            // $newlevel = $this->levelsinfo->get_level_from_xp($newxp)->get_level();
-            // if ($record->lvl != $newlevel) {
-            //     $this->db->set_field($this->table, 'lvl', $newlevel, ['courseid' => $this->courseid, 'userid' => $id]);
-            // }
         } else {
             $currentlevel = 1;
             $nextlevel = $currentlevel + 1;
@@ -140,7 +124,6 @@ class course_user_state_store {
 
         	/** Insert first xp */
         	$insert_result = $this->insert($userid, $amount, $nextlevel);
-            //echo "<br>insert completed=".$insert_result;
         }
 
         /** Logging coursemodule is passed to user preferences */
@@ -148,12 +131,10 @@ class course_user_state_store {
 
 		/** Notify a user */
 		$this->notify($userid);
-		//echo "<br>notify";
 
 		/** Log a thing */
 		$eventname = self::EVENT_NAME . $currentlevel;
 		$this->log($userid, $eventname, self::BASE_POINT);
-		//echo "<br>log";
 
 		$backtocourseurl = new moodle_url('/course/view.php', array('id' => $this->courseid));
 		redirect($backtocourseurl) ;
@@ -184,7 +165,6 @@ class course_user_state_store {
         $record->userid = $userid;
         $record->xp = $amount;
         $record->lvl = $nextlevel;
-        //$record->lvl = $this->levelsinfo->get_level_from_xp($amount)->get_level();
         $this->db->insert_record($this->table, $record);
     }
 

@@ -105,12 +105,7 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
             if (!$course_user_state_store->exists_pref_email($USER->id))
             {
                 $supportuser = core_user::get_support_user();
-                //echo "<br>Quiz=".$quiz->name;
-                //echo "<br>QuizURL=".$quiz->url;
-                // echo "<br>USER=".fullname($USER);
-                // echo "<br>supportuser=".$supportuser->email;
                 $emailupdatetitle = get_string('subject', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name]);
-                //echo "<br>Subject=".$emailupdatetitle;
 
                 $quizurl = $CFG->wwwroot . '/mod/quiz/view.php?id=' . $cm->id;
                 $avatar_next_level = $CFG->wwwroot.'/theme/elobot/pix/' . ($currentlevel + 1) . '.png';
@@ -119,7 +114,6 @@ class theme_elobot_mod_quiz_renderer extends mod_quiz_renderer {
                 $food_current_level_link = '<img src="' . $food_current_level . '" style="display: block; width: 300px;" />';
 
                 $emailupdatemessage = get_string('body', 'theme_elobot', ['studentname' => fullname($USER), 'quizname' => $quiz->name, 'quizurl' => $quizurl, 'coursename' => $course->fullname, 'nextavatar' => $avatar_next_level_link, 'qrcode' => (new qr_code())->generate_qrcode($cm->id, $USER->id), 'food' => $food_current_level_link ]);
-                //echo "<br>Body=".$emailupdatemessage;
 
                 if (!$mailresults = email_to_user($USER, $supportuser, $emailupdatetitle, $emailupdatemessage, $emailupdatemessage)) {
                     die("could not send email!");

@@ -31,10 +31,8 @@ require_once($CFG->dirroot . '/theme/elobot/thirdparty/QrCode/src/QrCode.php');
 
 $id = required_param('id', PARAM_INT);
 $uid = required_param('uid', PARAM_INT);
-//$lv = required_param('lv', PARAM_INT);
 
-//$data = new moodle_url('/theme/elobot/qr_in.php', array('id' => $id, 'uid' => $uid)); //, 'lv' => $lv
-$data = new moodle_url('/theme/elobot/qr_in.php?id='.$id.'&amp;uid='.$uid);//, array('id' => $id, 'uid' => $uid));
+$data = new moodle_url('/theme/elobot/qr_in.php?id='.$id.'&amp;uid='.$uid);
 
 $code = new QrCode();
 $code->setText($data);

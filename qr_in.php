@@ -23,37 +23,18 @@
  */
 
 require_once(dirname(__FILE__) . '/../../config.php');
-//require_once($CFG->libdir . '/accesslib.php');
-//global $DB, $CFG, $SESSION;
 
 $id = required_param('id', PARAM_INT);
 $uid = optional_param('uid', 0, PARAM_INT);
-//$lv = required_param('lv', PARAM_INT);
-$ampuid = optional_param('amp;uid',  0, PARAM_INT);  // User ID for Android and some application
+
+/** User ID for Android and some application */
+$ampuid = optional_param('amp;uid',  0, PARAM_INT);
 
 /** Hot fix for some qr scan application issue */
 if($uid == 0) {
     $uid = $ampuid;
 }
 
-//$url = 'http://www.soccersuck.com?id='.$id.'&uid='.$uid;
 $url = new moodle_url('/theme/elobot/update_level.php', array('id' => $id, 'uid' => $uid)); //, 'lv' => $lv
-//$url = new moodle_url('/theme/elobot/update_level.php?id='.$id.'&uid='.$uid;
-
-// $data = $DB->get_record('local_qrlinks', array('id' => $id), '*', MUST_EXIST);
-// $url = $data->url;
-
-// // Guest login from moodlelib.php line 2546.
-// if (!isloggedin()) {
-//     if (!$guest = get_complete_user_data('id', $CFG->siteguest)) {
-//         // Misconfigured site guest, just redirect to login page.
-//         redirect(get_login_url());
-//         exit; // Never reached.
-//     }
-
-//     $lang = isset($SESSION->lang) ? $SESSION->lang : $CFG->lang;
-//     complete_user_login($guest);
-//     $SESSION->lang = $lang;
-// }
 
 redirect($url);

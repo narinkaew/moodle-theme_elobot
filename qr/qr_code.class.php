@@ -59,15 +59,12 @@ class qr_code {
         $desctext = $public_description;
         $descdiv = html_writer::div($desctext, 'qrdescription');
 
-        $qrurl = new moodle_url("/theme/elobot/qr_img.php", array('id' => $id, 'uid' => $uid) ); //, 'lv' => $lv
+        $qrurl = new moodle_url("/theme/elobot/qr_img.php", array('id' => $id, 'uid' => $uid) );
         $alt = "";
 
         $out = '';
-        //$out  .= $headdiv;
         $out .= html_writer::img($qrurl, $alt, array('height' => '90%'));
         $out .= html_writer::empty_tag('br');
-        //$out .= $descdiv;
-
         return $out;
     }
 }
